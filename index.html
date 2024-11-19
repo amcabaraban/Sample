@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Details Form</title>
+</head>
+<body>
+    <h2>Loading Details Form</h2>
+    <form id="loadingForm">
+        <label for="date">Date:</label><br>
+        <input type="date" id="date" name="date" required><br><br>
+        
+        <label for="companyName">Company Name:</label><br>
+        <input type="text" id="companyName" name="companyName" required><br><br>
+        
+        <label for="clientName">Client's Name:</label><br>
+        <input type="text" id="clientName" name="clientName" required><br><br>
+        
+        <label for="driverName">Driver's Name:</label><br>
+        <input type="text" id="driverName" name="driverName" required><br><br>
+        
+        <label for="plateNumber">Plate Number:</label><br>
+        <input type="text" id="plateNumber" name="plateNumber" required><br><br>
+        
+        <label for="product">Product to Load:</label><br>
+        <select id="product" name="product" required>
+            <option value="Diesel">Diesel</option>
+            <option value="Gasoline">Gasoline</option>
+        </select><br><br>
+        
+        <label for="quantity">Quantity to Load:</label><br>
+        <input type="number" id="quantity" name="quantity" required><br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('loadingForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            const response = await fetch('http://localhost:3000/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                alert('Form submitted successfully and emailed!');
+                this.reset();
+            } else {
+                alert('There was an error submitting the form.');
+            }
+        });
+    </script>
+</body>
+</html>
